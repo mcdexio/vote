@@ -20,8 +20,8 @@ contract VoteBox {
     // Vote content
     enum Content { INVALID, FOR, AGAINST }
 
-    // Min MCB for creating a new proposal
-    uint256 public constant MIN_PROPOSAL_MCB = 1000000 * 10**18; // 1% of MCB
+    // Min MCB rate of totalSupply for creating a new proposal
+    uint256 public constant MIN_PROPOSAL_RATE = 10**16; // 1% according to https://github.com/mcdexio/documents/blob/master/en/Mai-Protocol-v3.pdf
 
     // Min voting period in blocks. 1 day for 15s/block
     uint256 public constant MIN_PERIOD = 5760;
@@ -70,7 +70,8 @@ contract VoteBox {
     function propose(string calldata link, uint256 beginBlock, uint256 endBlock)
         external
     {
-        require(mcb.balanceOf(msg.sender) >= MIN_PROPOSAL_MCB, "proposal privilege required");
+        uint256 minProposalMCB = mcb.totalSupply().mul(MIN_PROPOSAL_RATE).div(10**18);
+        require(mcb.balanceOf(msg.sender) >= minProposalMCB, "proposal privilege required");
         require(bytes(link).length > 0, "empty link");
         require(block.number <= beginBlock, "old proposal");
         require(beginBlock.add(MIN_PERIOD) <= endBlock, "period is too short");
