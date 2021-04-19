@@ -12,7 +12,6 @@ contract VoteBox {
 
     // Meta data
     struct Meta {
-        string link;
         uint256 beginBlock;
         uint256 endBlock;
     }
@@ -32,6 +31,9 @@ contract VoteBox {
     // All proposal meta data
     Meta[] public proposals;
 
+    // Compatible with the old VoteBox
+    uint256 public constant PROPOSAL_ID_OFFSET = 20;
+
     /**
      * @dev The new proposal is created
      */
@@ -50,6 +52,12 @@ contract VoteBox {
         public
     {
         mcb = IERC20(mcbAddress);
+        for (uint i = 0; i < PROPOSAL_ID_OFFSET; i++) {
+            proposals.push(Meta({
+                beginBlock: 0,
+                endBlock: 0
+            }));
+        }
     }
 
     /**
@@ -76,7 +84,6 @@ contract VoteBox {
         require(block.number <= beginBlock, "old proposal");
         require(beginBlock.add(MIN_PERIOD) <= endBlock, "period is too short");
         proposals.push(Meta({
-            link: link,
             beginBlock: beginBlock,
             endBlock: endBlock
         }));
