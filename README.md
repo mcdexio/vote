@@ -36,3 +36,10 @@ Vote(address, id, for): Someone changes his/her vote on the proposal.
 The backend system can use the events to trace the voting.
 
 However, anyone can verify the voting result by reading this contract’s data from block-chain. Nobody can cheat on voting.
+
+## Deployed Contracts
+
+|Contract|Description|Address|
+|---|---|---|
+|VoteBox |Initial version |[0xb44a29b5fb1f6dc5730d721a2c12898e1e6c6c31](https://etherscan.io/address/0xb44a29b5fb1f6dc5730d721a2c12898e1e6c6c31)|
+|VoteBox2 |Modify min MCB for `Propose` according to the [whitepaper](https://github.com/mcdexio/documents/blob/master/en/Mai-Protocol-v3.pdf)                               |[0xafffa077b42aea1e4c94da21eab227eab2edc0c4](https://etherscan.io/address/0xafffa077b42aea1e4c94da21eab227eab2edc0c4)|
